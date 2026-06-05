@@ -99,6 +99,34 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
 .footer-logo em{color:var(--red);font-style:normal}
 .footer-copy{font-size:11px;color:#333;font-weight:300;letter-spacing:1px}
 
+/* ── RUNNER ── */
+.runner-track{position:relative;height:52px;overflow:hidden;background:transparent;border-bottom:2px solid var(--red)}
+.runner{position:absolute;bottom:-4px;left:-60px;width:40px;height:52px;animation:run-across 7s linear infinite}
+/* pernas alternadas via animateTransform no JS – aqui fazemos via CSS transform-origin */
+@keyframes run-across{
+  0%  {left:-60px}
+  100%{left:calc(100% + 60px)}
+}
+/* oscilação do corpo enquanto corre */
+.runner{animation:run-across 7s linear infinite, runner-bob 0.35s ease-in-out infinite alternate}
+@keyframes runner-bob{
+  from{transform:translateY(0) rotate(-1deg)}
+  to  {transform:translateY(-3px) rotate(1deg)}
+}
+/* pernas e braços animados com CSS */
+.leg-lh{transform-origin:24px 30px;animation:leg-lh 0.35s ease-in-out infinite alternate}
+.leg-ls{transform-origin:14px 42px;animation:leg-ls 0.35s ease-in-out infinite alternate}
+.leg-rh{transform-origin:24px 30px;animation:leg-rh 0.35s ease-in-out infinite alternate}
+.leg-rs{transform-origin:34px 40px;animation:leg-rs 0.35s ease-in-out infinite alternate}
+.arm-l {transform-origin:24px 16px;animation:arm-l  0.35s ease-in-out infinite alternate}
+.arm-r {transform-origin:24px 16px;animation:arm-r  0.35s ease-in-out infinite alternate}
+@keyframes leg-lh{from{transform:rotate(-30deg)} to{transform:rotate(25deg)}}
+@keyframes leg-ls{from{transform:rotate(10deg)}  to{transform:rotate(-20deg)}}
+@keyframes leg-rh{from{transform:rotate(25deg)}  to{transform:rotate(-30deg)}}
+@keyframes leg-rs{from{transform:rotate(-20deg)} to{transform:rotate(10deg)}}
+@keyframes arm-l {from{transform:rotate(20deg)}  to{transform:rotate(-30deg)}}
+@keyframes arm-r {from{transform:rotate(-30deg)} to{transform:rotate(20deg)}}
+
 /* ── CANVAS PARTICLES ── */
 #particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35}
 body > *:not(#particles){position:relative;z-index:1}
@@ -166,13 +194,34 @@ body > *:not(#particles){position:relative;z-index:1}
     <div class="hero-right">
       <button class="btn-primary">Quero minha consultoria</button>
       <div class="hero-stats">
-        <div class="stat"><div class="stat-num" data-count="1500" data-suffix="+">1.500+</div><div class="stat-label">Pacientes</div></div>
+        <div class="stat"><div class="stat-num" id="counter-pacientes" data-count="1500" data-suffix="+" data-dur="3000">1.500+</div><div class="stat-label">Pacientes</div></div>
         <div class="stat"><div class="stat-num" data-count="9" data-suffix=" anos">9 anos</div><div class="stat-label">Experiência</div></div>
         <div class="stat"><div class="stat-num" data-count="100" data-suffix="%">100%</div><div class="stat-label">Personalizado</div></div>
       </div>
     </div>
   </div>
 </section>
+
+<div class="runner-track">
+  <svg class="runner" viewBox="0 0 48 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <!-- cabeça -->
+    <circle cx="24" cy="6" r="5" fill="#F5F2EE"/>
+    <!-- corpo -->
+    <line x1="24" y1="11" x2="24" y2="30" stroke="#F5F2EE" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- braço esquerdo -->
+    <line class="arm-l" x1="24" y1="16" x2="12" y2="24" stroke="#D62B2B" stroke-width="2" stroke-linecap="round"/>
+    <!-- braço direito -->
+    <line class="arm-r" x1="24" y1="16" x2="36" y2="22" stroke="#D62B2B" stroke-width="2" stroke-linecap="round"/>
+    <!-- perna esquerda coxa -->
+    <line class="leg-lh" x1="24" y1="30" x2="14" y2="42" stroke="#F5F2EE" stroke-width="2" stroke-linecap="round"/>
+    <!-- perna esquerda canela -->
+    <line class="leg-ls" x1="14" y1="42" x2="8"  y2="55" stroke="#F5F2EE" stroke-width="2" stroke-linecap="round"/>
+    <!-- perna direita coxa -->
+    <line class="leg-rh" x1="24" y1="30" x2="34" y2="40" stroke="#F5F2EE" stroke-width="2" stroke-linecap="round"/>
+    <!-- perna direita canela -->
+    <line class="leg-rs" x1="34" y1="40" x2="40" y2="52" stroke="#F5F2EE" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</div>
 
 <div class="promise" data-reveal>
   <p>Você corre mais rápido, evolui na estética e tem um time completo. <span>Do prato até a linha de chegada.</span></p>
@@ -336,7 +385,7 @@ document.querySelectorAll('[data-reveal]').forEach(el=>revealObs.observe(el));
 function animateCount(el){
   const target = parseInt(el.dataset.count);
   const suffix = el.dataset.suffix || '';
-  const dur = 1400;
+  const dur = parseInt(el.dataset.dur) || 1400;
   const start = performance.now();
   function step(now){
     const p = Math.min((now-start)/dur,1);
