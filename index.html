@@ -382,7 +382,7 @@ const revealObs = new IntersectionObserver((entries)=>{
 document.querySelectorAll('[data-reveal]').forEach(el=>revealObs.observe(el));
 
 /* ── COUNTER ANIMATION ── */
-function animateCount(el){
+function animateCount(el, onDone){
   const target = parseInt(el.dataset.count);
   const suffix = el.dataset.suffix || '';
   const dur = parseInt(el.dataset.dur) || 1400;
@@ -393,13 +393,19 @@ function animateCount(el){
     const val = Math.round(ease*target);
     el.textContent = val >= 1000 ? val.toLocaleString('pt-BR')+suffix : val+suffix;
     if(p<1) requestAnimationFrame(step);
+    else if(onDone) onDone();
   }
   requestAnimationFrame(step);
+}
+function loopCounter(el){
+  animateCount(el, ()=> setTimeout(()=>loopCounter(el), 5000));
 }
 const counterObs = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting && e.target.dataset.count){
-      animateCount(e.target);
+      const isPatients = e.target.id === 'counter-pacientes';
+      if(isPatients) loopCounter(e.target);
+      else animateCount(e.target);
       counterObs.unobserve(e.target);
     }
   });
