@@ -78,6 +78,13 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
 .footer-logo em{color:var(--red);font-style:normal}
 .footer-copy{font-size:11px;color:#333;font-weight:300;letter-spacing:1px}
 
+[data-reveal]{opacity:0;transform:translateY(32px);transition:opacity 0.6s ease,transform 0.6s ease}
+[data-reveal].visible{opacity:1;transform:translateY(0)}
+[data-reveal="left"]{transform:translateX(-32px)}
+[data-reveal="left"].visible{transform:translateX(0)}
+[data-reveal="right"]{transform:translateX(32px)}
+[data-reveal="right"].visible{transform:translateX(0)}
+
 @media(max-width:650px){
   .hero-body,.pillars,.two-col,.bonuses-grid{grid-template-columns:1fr}
   .hero-stats{grid-template-columns:repeat(3,1fr)}
@@ -95,7 +102,7 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
   <button class="nav-cta">Quero começar</button>
 </nav>
 
-<section class="hero">
+<section class="hero" data-reveal>
   <div class="eyebrow">Consultoria de treino, corrida e nutrição</div>
   <h1>
     <span>Estética.</span>
@@ -103,7 +110,7 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
     <span class="line-outline">Resultado.</span>
   </h1>
   <div class="hero-body">
-    <p class="hero-sub">Um time completo cuidando de cada detalhe, <strong>do prato até a chegada.</strong> Nutrição e treino integrados para quem quer correr mais rápido, evoluir na composição corporal e ter acompanhamento real semana a semana.</p>
+    <p class="hero-sub">Um time completo cuidando de cada detalhe, <strong>do prato até a linha de chegada.</strong> Nutrição e treino integrados para quem quer correr mais rápido, evoluir na composição corporal e ter acompanhamento real semana a semana.</p>
     <div class="hero-right">
       <button class="btn-primary">Quero minha consultoria</button>
       <div class="hero-stats">
@@ -115,11 +122,11 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
   </div>
 </section>
 
-<div class="promise">
-  <p>Você corre mais rápido, evolui na estética e tem um time completo. <span>Do prato até a chegada.</span></p>
+<div class="promise" data-reveal>
+  <p>Você corre mais rápido, evolui na estética e tem um time completo. <span>Do prato até a linha de chegada.</span></p>
 </div>
 
-<section class="section">
+<section class="section" data-reveal>
   <div class="section-tag">Protocolo completo</div>
   <div class="section-title">O que você recebe</div>
   <div class="pillars">
@@ -164,7 +171,7 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
   </div>
 </section>
 
-<section class="section">
+<section class="section" data-reveal>
   <div class="section-tag">Suporte e acompanhamento</div>
   <div class="section-title">Time completo no seu WhatsApp</div>
   <div class="two-col">
@@ -183,7 +190,7 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
   </div>
 </section>
 
-<section class="section">
+<section class="section" data-reveal>
   <div class="section-tag">Inclusos na consultoria</div>
   <div class="section-title">Bônus</div>
   <div class="bonuses-grid">
@@ -210,9 +217,9 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
   </div>
 </section>
 
-<section class="cta-section">
+<section class="cta-section" data-reveal>
   <h2>Pronto para correr<br>no seu melhor nível?</h2>
-  <p>Nutrição e treino trabalhando juntos, com acompanhamento real. Do prato até a chegada.</p>
+  <p>Nutrição e treino trabalhando juntos, com acompanhamento real. Do prato até a linha de chegada.</p>
   <button class="btn-white">Quero começar agora</button>
 </section>
 
@@ -221,5 +228,17 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
   <div class="footer-copy">Consultoria de Treino, Corrida e Nutrição · Brasil</div>
 </footer>
 
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
