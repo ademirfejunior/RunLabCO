@@ -100,10 +100,14 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
 .footer-copy{font-size:11px;color:#333;font-weight:300;letter-spacing:1px}
 
 /* ── RUNNER ── */
-.runner-track{position:relative;height:68px;overflow:visible;background:transparent;border-bottom:2px solid var(--red);z-index:2}
-.runner{position:absolute;bottom:0px;left:-80px;width:52px;height:68px;overflow:visible;
+.runner-track{position:relative;height:68px;overflow:hidden;background:transparent;border-bottom:2px solid var(--red);z-index:2}
+.runner{position:absolute;bottom:0px;left:0;width:52px;height:68px;overflow:visible;
+  will-change:transform;
   animation:run-across 6s linear infinite, runner-bob 0.28s ease-in-out infinite alternate}
-@keyframes run-across{0%{left:-80px}100%{left:calc(100% + 80px)}}
+@keyframes run-across{
+  0%  {transform:translateX(-100px) translateY(0)}
+  100%{transform:translateX(calc(100vw + 100px)) translateY(0)}
+}
 @keyframes runner-bob{from{transform:translateY(0)}to{transform:translateY(-4px)}}
 
 /* leg groups rotate around hip (22px 44px in the viewBox) */
