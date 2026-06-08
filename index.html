@@ -101,12 +101,13 @@ footer{padding:1.25rem 2rem;border-top:1px solid #1A1A1A;display:flex;justify-co
 
 /* ── RUNNER ── */
 .runner-track{position:relative;height:68px;overflow:hidden;background:transparent;border-bottom:2px solid var(--red);z-index:2}
-.runner{position:absolute;bottom:0px;left:0;width:52px;height:68px;overflow:visible;
-  will-change:transform;
-  animation:run-across 6s linear infinite, runner-bob 0.28s ease-in-out infinite alternate}
+/* wrapper move horizontal */
+.runner-wrap{position:absolute;bottom:0;left:0;will-change:transform;animation:run-across 6s linear infinite}
+/* svg faz o bob */
+.runner{width:52px;height:68px;overflow:visible;display:block;will-change:transform;animation:runner-bob 0.28s ease-in-out infinite alternate}
 @keyframes run-across{
-  0%  {transform:translateX(-100px) translateY(0)}
-  100%{transform:translateX(calc(100vw + 100px)) translateY(0)}
+  0%  {transform:translateX(-100px)}
+  100%{transform:translateX(calc(100vw + 100px))}
 }
 @keyframes runner-bob{from{transform:translateY(0)}to{transform:translateY(-4px)}}
 
@@ -211,6 +212,7 @@ body > *:not(#particles){position:relative;z-index:1}
 </section>
 
 <div class="runner-track">
+  <div class="runner-wrap">
   <svg class="runner" viewBox="0 0 60 82" xmlns="http://www.w3.org/2000/svg" fill="none" overflow="visible">
     <!-- cabeça -->
     <circle cx="44" cy="8" r="7" fill="white"/>
@@ -243,6 +245,7 @@ body > *:not(#particles){position:relative;z-index:1}
       <ellipse cx="4" cy="75" rx="6" ry="3" fill="white"/>
     </g>
   </svg>
+  </div>
 </div>
 
 <div class="promise" data-reveal>
